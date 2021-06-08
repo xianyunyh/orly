@@ -2,7 +2,7 @@
   <div id="app">
     <TitleBar class="w100" :title-msg="$t('h1')" :init-lang="this.$i18n.locale" :lang-set="langSet" @lang-changed="handleLanguageChange"/>
     <Inputer class="w50" v-on:input-submit="handleSubmit"/>
-    <Result class="w50 gap" v-bind:input-src="imgSrc"/>
+    <Result :colors="colors" class="w50 gap" v-bind:input-src="imgSrc"/>
     <Thumbnails class="w100"/>
     <Colors class="w100" v-bind:colors="colors"/>
     <paperwork class="w100"/>

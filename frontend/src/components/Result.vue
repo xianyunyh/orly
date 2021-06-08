@@ -18,20 +18,20 @@
     ></progressive-img> -->
     
     <div class="pic-area">
-      <div class='pic-top'></div>
+      <div class='pic-top' v-bind:style="{ backgroundColor: bgColor }"></div>
       <div class="top-text">
-        {{top_text}}
+        {{input.topText}}
       </div>
-      <div class="img-box"> <img src="/img/0.tif.56a5ab37.gif" alt=""></div>
-      <div class="main-title">
-        {{main_title}}
+      <div class="img-box"> <img :src="animalPic" alt=""></div>
+      <div class="main-title" v-bind:style="{ backgroundColor: bgColor }">
+        {{input.title}}
       </div>
       <div class="extra-title">
-        {{extra_title}}
+        {{input.guideText}}
       </div>
       <div class="foot">
         <div class="foot-left">O'RLY?</div>
-        <div class="author-text">{{author}}</div>
+        <div class="author-text">{{input.author}}</div>
       </div>
     </div>
     <a :href="imgSrc" target="_blank" download>{{$t("download")}}</a>
@@ -40,24 +40,49 @@
 </template>
 
 <script>
+  import bus from '@/bus';
+
   export default {
     name: "Result",
     props: {
       inputSrc: String,
+      colors: Array,
     },
     beforeMount: function() {
       this.imgSrc = this.inputSrc
     },
     data: function () {
       return {
+        input: {
+          title: 'Title 标题',
+          topText: 'Top Text 顶部文字',
+          guideText: 'Guid Title副标题',
+          author: 'Author 作者'
+        },
         baseURL: process.env.BASE_URL,
-        imgSrc: "",
-        top_text: "Top Text 顶部文字",
-        main_title: "Title 标题",
-        extra_title: "Guid Title副标题",
-        foot_left_text: "O'RLY?",
-        author: "Author 作者"
+        imgSrc: ""
       }
+    },
+    mounted(){
+      bus.$on('message', (e) => {
+        this.input = {...this.input,...e}
+      })
+      bus.$on('animal', (e) => {
+        console.log(e)
+        this.input.animalCode = e
+      })
+    },
+    computed: {
+      bgColor(){
+        const index = this.input.colorCode < 0 ? 0 : parseInt(this.input.colorCode,10) 
+        const item = this.colors[index]
+        return item
+      },
+      animalPic() {
+        const index = 3
+        console.log(index)
+        return require(`../assets/thumbnails/${index}.tif.gif`);
+    },
     },
     watch: {
       inputSrc: function (newVal) {
@@ -75,12 +100,12 @@
     width: 400px;
   }
   .img-box {
-    margin-top: 10px;
-    padding-left: 70px;
+    padding: 0 16px;
+    height: 280px;
   }
   .pic-top {
     margin: 0 auto;
-    width: 360px;
+    width: 368px;
     background: #888888;
     height: 8px;
   }
@@ -91,7 +116,7 @@
     background: #777777;
     text-align: left;
     line-height: 110px;
-    font-size: 56px;
+    font-size: 58px;
     color: #fff;
     padding-left: 10px;
     font-weight: bold;
@@ -107,18 +132,21 @@
   .pic-area {
     width: 400px;
     height: 560px;
+    position: relative;
     box-shadow: 10px 10px 20px #999;
   }
   .pic-area img {
-    width: 280px;
-    height: 280px;
-    margin-left: 30px;
+    padding: 0 16px;
+    height: 100%;
   }
   .foot{
+    position: absolute;
     display: flex;
     justify-content: space-between;
+    width: 100%;
     margin-top: 60px;
     padding: 0 25px;
+    bottom: 18px;
   }
   .author-text{
     font-size: 13px;

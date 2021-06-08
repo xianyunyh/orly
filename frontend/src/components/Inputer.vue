@@ -42,6 +42,7 @@
 </template>
 
 <script>
+  import bus from '@/bus';
   export default {
     name: "Inputer",
     data: function () {
@@ -63,6 +64,15 @@
     mounted: function() {
       this.isSubmitDisabled = false
       this.submitWord = this.$t("submit_word")
+    },
+    watch:{
+      input:{
+        handler(v){
+          bus.$emit('message', v)
+        },
+        immediate: true,
+        deep: true
+      }
     },
     methods: {
       onSubmit: function () {

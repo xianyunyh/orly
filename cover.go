@@ -284,9 +284,9 @@ func (c *CoverFactory) coverPt(dstRect image.Rectangle, imgRect image.Rectangle)
 // secondaryBarRect calc and return the rectangle of top bar
 func (c *CoverFactory) secondaryBarRect() image.Rectangle {
 	var (
-		coverPadding = PaddingPctH * c.width / Denominator
-		barHeight    = SecondaryBarHPct * c.height / Denominator
-		barWidth     = c.width - (2 * coverPadding)
+		coverPadding = PaddingPctH * c.width / Denominator       //16
+		barHeight    = SecondaryBarHPct * c.height / Denominator //7.84
+		barWidth     = c.width - (2 * coverPadding)              //368
 	)
 	return image.Rectangle{
 		Min: image.Point{
@@ -304,10 +304,10 @@ func (c *CoverFactory) secondaryBarRect() image.Rectangle {
 // secondaryBarRect calc and return the rectangle of title bar
 func (c *CoverFactory) primaryBarRect() image.Rectangle {
 	var (
-		coverPadding = PaddingPctH * c.width / Denominator
-		MinY         = PrimaryBarPosPctH * c.height / Denominator
-		barHeight    = PrimaryBarHPct * c.height / Denominator
-		barWidth     = c.width - (2 * coverPadding)
+		coverPadding = PaddingPctH * c.width / Denominator        //16
+		MinY         = PrimaryBarPosPctH * c.height / Denominator //320
+		barHeight    = PrimaryBarHPct * c.height / Denominator    //108
+		barWidth     = c.width - (2 * coverPadding)               //368
 	)
 	return image.Rectangle{
 		Min: image.Point{
